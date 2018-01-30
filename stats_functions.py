@@ -42,3 +42,13 @@ def draw_perm_reps(data_1, data_2, func, size=1):
         perm_replicates[i] = func(perm_sample_1, perm_sample_2)
 
     return perm_replicates
+
+def autolabel(rects):
+    """
+    Attach a text label above each bar displaying its height
+    """
+    for rect in rects:
+        height = rect.get_height()
+        ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+                '%d' % int(height),
+                ha='center', va='bottom')
