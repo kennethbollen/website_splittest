@@ -87,6 +87,9 @@ plt.show()'''
 #choose significance level 
 sig_level = 0.05
 
+#initialize the array to capture the permutations of the replications of the test
+perm_replicates = np.empty(10000) 
+
 #calculate the observed converstion rate of the two-week trial
 obs_diff = diff_frac_obs(split_test['Website_A'], split_test['Website_B'])
 
