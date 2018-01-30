@@ -3,7 +3,7 @@ import numpy as np
 from data_extract import *
 from stats_functions import *
 
-#converstions
+'''#converstions
 webA_conv = []
 webB_conv = []
 for index, row in split_test.iterrows():
@@ -29,7 +29,7 @@ ax.legend((rects[0], rects[0]), ('Website A', 'Website B'))
 ax.legend((rects1[0], rects2[0]), ('Website A', 'Website B'))
 autolabel(rects1)
 autolabel(rects2)
-plt.show()
+plt.show()'''
 
 #choose significance level 
 sig_level = 0.05
