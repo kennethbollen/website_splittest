@@ -1,8 +1,8 @@
 import numpy as np
 
 def diff_frac(data_A, data_B):
-    frac_A = np.sum(data_A['Orders']) / np.sum(data_A['Visits'])
-    frac_B = np.sum(data_B['Orders']) / np.sum(data_B['Visits'])
+    frac_A = np.sum(data_A) / np.sum(data_A)
+    frac_B = np.sum(data_B) / np.sum(data_B)
     return frac_B - frac_A
 
 def permutation_sample(data1, data2):
@@ -15,8 +15,8 @@ def permutation_sample(data1, data2):
     permuted_data = np.random.permutation(data)
 
     # Split the permuted array into two: perm_sample_1, perm_sample_2
-    perm_sample_1 = permuted_data[:np.sum(data1['Visits'])]
-    perm_sample_2 = permuted_data[np.sum(data1['Visits']):]
+    perm_sample_1 = permuted_data[:len(data1['Visits'])]
+    perm_sample_2 = permuted_data[len(data1['Visits']):]
 
     return perm_sample_1, perm_sample_2
     
