@@ -100,7 +100,7 @@ draw_perm_reps(split_test['Website_A'], split_test['Website_B'], diff_frac, 1000
 p_value = np.sum(perm_replicates >= obs_diff) / 10000
 
 if p_value > sig_level:
-  print('Accept null hypothesis: The two-week promotion had no effect on conversion')
+  print('p value: ', p_value,'\nAccept null hypothesis: The two-week promotion had no effect on conversion')
 else:
-  print('Reject null hypothesis: The two-week promotion had a effect on conversion')
+  print('p value', p_value,'\nReject null hypothesis: The two-week promotion had a effect on conversion')
   
