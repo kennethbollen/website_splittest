@@ -1,8 +1,8 @@
 import numpy as np
 
 def diff_frac(data_A, data_B):
-    frac_A = np.sum(data_A) / np.sum(data_A)
-    frac_B = np.sum(data_B) / np.sum(data_B)
+    frac_A = np.sum(data_A) / np.sum(split_test['Website_A']['Visits'])
+    frac_B = np.sum(data_B) / np.sum(split_test['Website_B']['Visits'])
     return frac_B - frac_A
 
 def permutation_sample(data1, data2):
