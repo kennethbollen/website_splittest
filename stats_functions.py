@@ -1,4 +1,5 @@
 import numpy as np
+from data_extract import *
 
 #calculate the conversion for the two-week split trial
 def diff_frac_obs(data_A, data_B):
