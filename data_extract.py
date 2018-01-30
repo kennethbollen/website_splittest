@@ -20,5 +20,3 @@ split_test.index.name = 'Date'
 #Create a two level hierarchical column
 headers = [['Website_A', 'Website_A', 'Website_B', 'Website_B'],['Visits', 'Orders','Visits', 'Orders']]
 split_test.columns = headers
-
-print(split_test)
