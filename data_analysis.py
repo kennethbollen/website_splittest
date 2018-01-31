@@ -53,7 +53,7 @@ for index, row in split_test.iterrows():
 	webA_conv.append(row['Website_A']['Orders'] / row['Website_A']['Visits'])
 	webB_conv.append(row['Website_B']['Orders'] / row['Website_B']['Visits'])'''
   
-#EDA
+#EDA on orders
 bar_xlabel = []
 for i in split_test.index:
 	bar_xlabel.append(i)
@@ -80,6 +80,19 @@ def autolabel(rects):
                 '%d' % int(height),
                 ha='center', va='bottom')
 
+autolabel(rects1)
+autolabel(rects2)
+plt.show()
+
+#EDA on visitors
+fig, ax = plt.subplots()
+rects1 = ax.bar(ind, split_test['Website_A']['Orders'], width, color='b')
+rects2 = ax.bar(ind + width, split_test['Website_B']['Orders'], width, color='g')
+ax.set_ylabel('Number of Orders')
+ax.set_title('Two-week split test impact on orders')
+ax.set_xticks(ind + width / 2)
+ax.set_xticklabels(bar_xlabel)
+ax.legend((rects1[0], rects2[0]), ('Website A', 'Website B'))
 autolabel(rects1)
 autolabel(rects2)
 plt.show()
