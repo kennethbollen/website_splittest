@@ -3,6 +3,12 @@ import numpy as np
 from data_extract import *
 #from stats_functions import *
 
+cpc = 1.50
+bronze_cpc = 0.50
+silver_cpc = 1.50
+gold_cpc = 2.50
+margin_order = 30
+
 #calculate the conversion for the two-week split trial
 def diff_frac_obs(data_A, data_B):
 	frac_A = np.sum(data_A['Orders']) / np.sum(data_A['Visits'])
@@ -113,7 +119,34 @@ draw_perm_reps(split_test['Website_A'], split_test['Website_B'], diff_frac, 1000
 p_value = np.sum(perm_replicates >= obs_diff) / 10000
 
 if p_value > sig_level:
-  print('p value: ', p_value,'\nAccept null hypothesis: The two-week promotion had no effect on conversion')
+  print('p value: ', p_value,'\nAccept null hypothesis: The two-week promotion had no effect on conversion')	
 else:
   print('p value', p_value,'\nReject null hypothesis: The two-week promotion had a effect on conversion')
   
+#current plan
+ctr = split_test['Website_A']['Visits'].sum() + split_test['Website_B']['Visits'].sum()
+avg_conv = np.mean(webA_conv)
+cost = split_test['Website_A']['Visits'].sum() * gold_cpc
+revenue = split_test['Website_A']['Orders'].sum() * margin_order
+profit = revenue - cost
+gross_margin = profit / revenue
+
+#bronze plan - increase conversion by 1.5% for 2.50
+bronze_visits = ctr * (1 - 0.005)
+bronze_orders = bronze_ctr * avg_conv
+bronze_cost = bronze_ctr * bronze_cpc
+bronze_revenue = bronze_orders * margin_order
+bronze_profit = bronze_revenue - bronze_cost
+bronze_grmargin = bronze_profit / bronze_revenue
+br_profit_increase = ((bronze_profit - profit) / profit) * 100
+
+#gold plan - increase conversion by 1.5% for 2.50
+gold_visits = ctr * (1 + 0.015)
+gold_orders = gold_ctr * avg_conv
+gold_cost = gold_ctr * gold_cpc
+gold_revenue = gold_orders * margin_order
+gold_profit = gold_revenue - gold_cost
+gold_grmargin = gold_profit / gold_revenue
+gld_profit_increase = ((gold_profit - profit) / profit) * 100
+
+#df_plans = pd.DataFrame({'current_plan': {'profit': profit, 'gross_margin': gross_margin}, 'bronze_plan': {'profit': bronze_profit, 'gross_margin': bronze_grmargin }, 'gold_plan': {'profit': gold_profit, 'gross_margin': gold_grmargin}})
