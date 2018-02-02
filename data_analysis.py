@@ -52,12 +52,12 @@ def draw_perm_reps(data_1, data_2, func, size=1):
 
     return perm_replicates
 
-'''#converstions
+#converstions
 webA_conv = []
 webB_conv = []
 for index, row in split_test.iterrows():
 	webA_conv.append(row['Website_A']['Orders'] / row['Website_A']['Visits'])
-	webB_conv.append(row['Website_B']['Orders'] / row['Website_B']['Visits'])'''
+	webB_conv.append(row['Website_B']['Orders'] / row['Website_B']['Visits'])
   
 #EDA on orders
 bar_xlabel = []
@@ -71,10 +71,20 @@ fig, ax = plt.subplots()
 rects1 = ax.bar(ind, split_test['Website_A']['Orders'], width, color='r')
 rects2 = ax.bar(ind + width, split_test['Website_B']['Orders'], width, color='y')
 ax.set_ylabel('Number of Orders')
+ax.set_xlabel('Two Week Period')
 ax.set_title('Two-week split test impact on orders')
 ax.set_xticks(ind + width / 2)
 ax.set_xticklabels(bar_xlabel)
-ax.legend((rects1[0], rects2[0]), ('Website A', 'Website B'))
+
+ax2 = ax.twinx()
+line1 = ax2.plot(ax.get_xticks(), webA_conv , linestyle='-', marker='o', color='r', linewidth=1.0)
+line2 = ax2.plot(ax.get_xticks(), webB_conv , linestyle='-', marker='o', color='y', linewidth=1.0)
+
+vals = ax2.get_yticks()
+ax2.set_yticklabels(['{:3.2f}%'.format(x*100) for x in vals])
+ax2.set_ylabel('Conversion Rate %')
+
+ax.legend((rects1[0], rects2[0], line1[0], line2[0]), ('Web A Orders', 'Web B Orders', 'Web A Conversion', 'Web B Conversion'))
 
 def autolabel(rects):
     """
@@ -86,19 +96,6 @@ def autolabel(rects):
                 '%d' % int(height),
                 ha='center', va='bottom')
 
-autolabel(rects1)
-autolabel(rects2)
-plt.show()
-
-#EDA on visitors
-fig, ax = plt.subplots()
-rects1 = ax.bar(ind, split_test['Website_A']['Orders'], width, color='b')
-rects2 = ax.bar(ind + width, split_test['Website_B']['Orders'], width, color='g')
-ax.set_ylabel('Number of Orders')
-ax.set_title('Two-week split test impact on orders')
-ax.set_xticks(ind + width / 2)
-ax.set_xticklabels(bar_xlabel)
-ax.legend((rects1[0], rects2[0]), ('Website A', 'Website B'))
 autolabel(rects1)
 autolabel(rects2)
 plt.show()
@@ -124,15 +121,16 @@ else:
   print('p value', p_value,'\nReject null hypothesis: The two-week promotion had a effect on conversion')
   
 #current plan
-ctr = split_test['Website_A']['Visits'].sum() + split_test['Website_B']['Visits'].sum()
+ctr = split_test['Website_A']['Visits'].sum() + split_test['Website_B']['Visits'].sum(
 avg_conv = np.mean(webA_conv)
-cost = split_test['Website_A']['Visits'].sum() * gold_cpc
-revenue = split_test['Website_A']['Orders'].sum() * margin_order
+num_orders = ctr * avg_conv
+cost = ctr * silver_cpc
+revenue = num_orders * margin_order
 profit = revenue - cost
 gross_margin = profit / revenue
 
 #bronze plan - increase conversion by 1.5% for 2.50
-bronze_visits = ctr * (1 - 0.005)
+bronze_ctr = ctr * (1 - 0.005)
 bronze_orders = bronze_ctr * avg_conv
 bronze_cost = bronze_ctr * bronze_cpc
 bronze_revenue = bronze_orders * margin_order
@@ -141,7 +139,7 @@ bronze_grmargin = bronze_profit / bronze_revenue
 br_profit_increase = ((bronze_profit - profit) / profit) * 100
 
 #gold plan - increase conversion by 1.5% for 2.50
-gold_visits = ctr * (1 + 0.015)
+gold_ctr = ctr * (1 + 0.015)
 gold_orders = gold_ctr * avg_conv
 gold_cost = gold_ctr * gold_cpc
 gold_revenue = gold_orders * margin_order
@@ -149,4 +147,9 @@ gold_profit = gold_revenue - gold_cost
 gold_grmargin = gold_profit / gold_revenue
 gld_profit_increase = ((gold_profit - profit) / profit) * 100
 
-#df_plans = pd.DataFrame({'current_plan': {'profit': profit, 'gross_margin': gross_margin}, 'bronze_plan': {'profit': bronze_profit, 'gross_margin': bronze_grmargin }, 'gold_plan': {'profit': gold_profit, 'gross_margin': gold_grmargin}})
+df_plans = pd.DataFrame({'current_plan': {'gross_margin': gross_margin,'profit': profit,'cost': cost,'revenue': revenue}, 'bronze_plan': {'gross_margin': bronze_grmargin,'profit': bronze_profit,'cost': bronze_cost,'revenue': bronze_revenue}, 'gold_plan': {'gross_margin': gold_grmargin,'profit': gold_profit,'cost': gold_cost,'revenue': gold_revenue}})
+
+#which plan is the most profitable
+print('Plan by profitability...')
+print(df_plans.T.sort_values('profit', ascending=False))
+
