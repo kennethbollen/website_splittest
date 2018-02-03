@@ -121,7 +121,7 @@ else:
   print('p value', p_value,'\nReject null hypothesis: The two-week promotion had a effect on conversion')
   
 #current plan
-ctr = split_test['Website_A']['Visits'].sum() + split_test['Website_B']['Visits'].sum(
+ctr = split_test['Website_A']['Visits'].sum() + split_test['Website_B']['Visits'].sum()
 avg_conv = np.mean(webA_conv)
 num_orders = ctr * avg_conv
 cost = ctr * silver_cpc
