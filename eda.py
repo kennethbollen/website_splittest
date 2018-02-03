@@ -1,3 +1,4 @@
+from data_extract import *
 import matplotlib.pyplot as plt
 
 #converstions
