@@ -52,7 +52,7 @@ def draw_perm_reps(data_1, data_2, func, size=1):
 
     return perm_replicates
 
-#converstions
+'''#converstions
 webA_conv = []
 webB_conv = []
 for index, row in split_test.iterrows():
@@ -98,7 +98,7 @@ def autolabel(rects):
 
 autolabel(rects1)
 autolabel(rects2)
-plt.show()
+plt.show()'''
 
 #choose significance level 
 sig_level = 0.05
