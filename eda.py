@@ -1,5 +1,6 @@
 from data_extract import *
 import matplotlib.pyplot as plt
+import numpy as np
 
 #converstions
 webA_conv = []
