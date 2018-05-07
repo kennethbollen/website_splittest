@@ -5,7 +5,7 @@ A/B testing for a online remittances' website and modeled different profit scena
 Overview
 ----------
 Languages: Python 3  
-Source: data-set provided  
+Source: transfergo_splittest.csv  
 Time period: Confidential  
 Time of analysis: Confidential  
 Packages used: pandas, numpy and matplotlib  
