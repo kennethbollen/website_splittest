@@ -1,6 +1,8 @@
 import pandas as pd
 
-split_test = pd.read_csv('/Users/DELL/Google Drive/Data Analysis/Python/transfergo_splittest.csv')
+FILENAME = ''
+
+split_test = pd.read_csv(FILENAME)
 
 #the headers has become the first row, delete this
 split_test = split_test.drop(0)
